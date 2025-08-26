@@ -1,20 +1,22 @@
 # Node
-node_modules/
-dist/
+**/node_modules/
+**/dist/
 npm-debug.log*
 yarn.lock
 pnpm-lock.yaml
 .env
 .env.local
 
-# Prisma
-prisma/*.db
+# Next.js
+**/.next/
+**/out/
 
-# Flutter
+# Prisma
+**/prisma/*.db
+
+# Flutter (예정)
 **/build/
 .dart_tool/
-.flutter-plugins
-.packages
 
 # macOS
 .DS_Store
