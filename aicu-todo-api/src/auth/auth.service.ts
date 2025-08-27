@@ -1,31 +1,44 @@
-// src/auth/auth.service.ts
 import { Injectable, UnauthorizedException, ConflictException } from '@nestjs/common';
-import { UsersService } from '../users/users.service';
+import { PrismaService } from '../prisma/prisma.service';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcryptjs';
 
 @Injectable()
 export class AuthService {
-  constructor(private users: UsersService, private jwt: JwtService) {}
+  constructor(private prisma: PrismaService, private jwt: JwtService) {}
 
-  async register(email: string, password: string) {
-    const exists = await this.users.findByEmail(email);
-    if (exists) throw new ConflictException('Email already registered');
-    const user = await this.users.create(email, password);
-    return this.sign(user.id, user.email);
+  async register(emailRaw: string, password: string) {
+    const email = (emailRaw ?? '').trim().toLowerCase();
+    if (!email || !password) throw new UnauthorizedException('Invalid input');
+
+    const exist = await this.prisma.user.findUnique({ where: { email } });
+    if (exist) throw new ConflictException('Email already registered');
+
+    const hash = await bcrypt.hash(password, 10);
+    const user = await this.prisma.user.create({ data: { email, password: hash } });
+
+    return this.issue(user.id, user.email);
   }
 
-  async login(email: string, password: string) {
-    const user = await this.users.findByEmail(email);
+  async login(emailRaw: string, password: string) {
+    const email = (emailRaw ?? '').trim().toLowerCase();
+    if (!email || !password) throw new UnauthorizedException('Invalid credentials');
+
+    const user = await this.prisma.user.findUnique({ where: { email } });
     if (!user) throw new UnauthorizedException('Invalid credentials');
+
     const ok = await bcrypt.compare(password, user.password);
     if (!ok) throw new UnauthorizedException('Invalid credentials');
-    return this.sign(user.id, user.email);
+
+    return this.issue(user.id, user.email);
   }
 
-  private sign(userId: number, email: string) {
-    const payload = { sub: userId, email };
-    return { access_token: this.jwt.sign(payload) };
+  private issue(id: number, email: string) {
+    const payload = { sub: id, email };
+    const access_token = this.jwt.sign(payload, {
+      secret: process.env.JWT_SECRET || 'devsecret',
+      expiresIn: process.env.JWT_EXPIRES || '1d',
+    });
+    return { access_token };
   }
 }
-
