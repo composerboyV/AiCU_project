@@ -1,4 +1,5 @@
-import { IsBoolean, IsOptional, IsString, MinLength } from 'class-validator';
+import { IsBoolean, IsOptional, IsString, MinLength, IsEnum, IsDateString } from 'class-validator';
+import { TodoCategory } from './create-todo.dto';
 
 export class UpdateTodoDto {
   @IsOptional()
@@ -9,4 +10,12 @@ export class UpdateTodoDto {
   @IsOptional()
   @IsBoolean()
   done?: boolean;
+  
+  @IsOptional()
+  @IsEnum(TodoCategory)
+  category?: TodoCategory;
+  
+  @IsOptional()
+  @IsDateString()
+  dueDate?: string;
 }

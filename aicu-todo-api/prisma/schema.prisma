@@ -3,8 +3,8 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider = "sqlite"
+  url      = "file:./dev.db"
 }
 
 model User {
@@ -16,10 +16,18 @@ model User {
 }
 
 model Todo {
-  id        Int      @id @default(autoincrement())
+  id        Int         @id @default(autoincrement())
   title     String
-  done      Boolean  @default(false)
+  done      Boolean     @default(false)
   userId    Int
-  user      User     @relation(fields: [userId], references: [id])
-  createdAt DateTime @default(now())
+  user      User        @relation(fields: [userId], references: [id])
+  category  TodoCategory @default(DAILY)
+  dueDate   DateTime?
+  createdAt DateTime    @default(now())
+}
+
+enum TodoCategory {
+  DAILY
+  WEEKLY
+  MONTHLY
 }
