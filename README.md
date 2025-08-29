@@ -1,8 +1,7 @@
 # 🚀 AiCU Todo - Full Stack Application
 
 > **AICU 신입 개발자 채용 과제**  
-> 개발자: **곽준기**  
-> 제출일: 2025년 8월 29일
+> 개발자: **곽준기(junkwak)**  
 
 ---
 
@@ -213,24 +212,12 @@ NEXT_PUBLIC_API_BASE=http://localhost:4000
 
 ---
 
-## 🏆 평가 기준 충족도
-
-| 평가 항목 | 충족도 | 상세 내용 |
-|-----------|--------|-----------|
-| **요구사항 완성도** | ⭐⭐⭐⭐⭐ | 모든 필수 기능 + 추가 기능 구현 |
-| **프레임워크 이해도** | ⭐⭐⭐⭐⭐ | NestJS/Next.js/Flutter 고급 활용 |
-| **코드 품질** | ⭐⭐⭐⭐⭐ | TypeScript + 상태관리 + 주석 완비 |
-| **문제 해결 능력** | ⭐⭐⭐⭐⭐ | 포트 충돌, 인증, UI/UX 모든 해결 |
-| **문서화** | ⭐⭐⭐⭐⭐ | 상세한 README + API 문서 + 실행 가이드 |
-
----
-
 ## 🖥 실행 환경
 
 - **OS**: macOS 12.7.6 (Intel)
 - **Node.js**: v20.19.4
 - **Flutter**: 3.35.2
-- **브라우저**: Chrome (최적화됨)
+- **브라우저**: Chrome
 
 ---
 
@@ -354,8 +341,6 @@ todoListProvider → TodoListNotifier → TodoListState
 ---
 
 <div align="center">
-
-### 🎉 **AICU 신입 개발자 채용 과제 완료** 🎉
 
 **감사합니다!**
 
